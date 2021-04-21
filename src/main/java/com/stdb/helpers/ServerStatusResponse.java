@@ -1,4 +1,4 @@
-package com.stdb.entity;
+package com.stdb.helpers;
 
 import lombok.Data;
 

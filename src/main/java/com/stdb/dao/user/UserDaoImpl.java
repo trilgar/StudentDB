@@ -1,4 +1,4 @@
-package com.stdb.dao;
+package com.stdb.dao.user;
 
 import com.stdb.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

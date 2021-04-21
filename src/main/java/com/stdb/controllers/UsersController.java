@@ -1,8 +1,8 @@
 package com.stdb.controllers;
 
-import com.stdb.entity.ServerStatusResponse;
+import com.stdb.helpers.ServerStatusResponse;
 import com.stdb.entity.User;
-import com.stdb.service.UserService;
+import com.stdb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

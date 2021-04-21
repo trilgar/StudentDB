@@ -1,6 +1,6 @@
-package com.stdb.service;
+package com.stdb.service.user;
 
-import com.stdb.dao.UserDao;
+import com.stdb.dao.user.UserDao;
 import com.stdb.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
