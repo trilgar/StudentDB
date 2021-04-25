@@ -1,4 +1,4 @@
-create type gender_enum as enum ('Male','Female');
+create type gender_enum as enum ('MALE','FEMALE');
 create type teacher_category as enum ('Assistant', 'Lecturer','Senior Lecturer', 'Docent','Professor');
 create type s_work as enum ('Candidate work','Dissertation work');
 create type d_type as enum ('Lection', 'Seminar','Lab work', 'Consultancy','Course work' );
@@ -31,7 +31,7 @@ create table students
 create table cathedra
 (
     id   serial primary key not null,
-    name varchar(20)        NOT NULL
+    name varchar(20) UNIQUE NOT NULL
 );
 create table teachers
 (
@@ -79,21 +79,21 @@ create table graduate_work
 );
 create table exam
 (
-    id          serial primary key  not null,
-    type e_type NOT NULL ,
-    id_discipline integer NOT NULL REFERENCES discipline(id),
-    id_student integer NOT NULL REFERENCES students(id),
-    description varchar(300),
-    mark integer NOT NULL ,
-    result boolean NOT NULL
+    id            serial primary key not null,
+    type          e_type             NOT NULL,
+    id_discipline integer            NOT NULL REFERENCES discipline (id),
+    id_student    integer            NOT NULL REFERENCES students (id),
+    description   varchar(300),
+    mark          integer            NOT NULL,
+    result        boolean            NOT NULL
 );
 
 
 
 create table users
 (
-    id           serial primary key  not null,
-    email        varchar(100) UNIQUE not null,
-    password     varchar(300)        not null,
-    name         varchar(100)        not null
+    id       serial primary key  not null,
+    email    varchar(100) UNIQUE not null,
+    password varchar(300)        not null,
+    name     varchar(100)        not null
 );
