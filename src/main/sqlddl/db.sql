@@ -1,7 +1,8 @@
 create type gender_enum as enum ('MALE','FEMALE');
-create type teacher_category as enum ('Assistant', 'Lecturer','Senior Lecturer', 'Docent','Professor');
-create type s_work as enum ('Candidate work','Dissertation work');
-create type d_type as enum ('Lection', 'Seminar','Lab work', 'Consultancy','Course work' );
+create type teacher_category as enum ('Assistant', 'Lecturer','SeniorLecturer', 'Docent','Professor');
+create type asp_status as enum ('TRUE', 'FALSE');
+create type s_work as enum ('CandidateWork','DissertationWork');
+create type d_type as enum ('Lection', 'Seminar','LabWork', 'Consultancy','CourseWork' );
 create type e_type as enum ('Exam', 'Credit');
 
 create table groups
@@ -41,7 +42,7 @@ create table teachers
     category    teacher_category    NOT NULL,
     year        integer             NOT NULL,
     wage        integer,
-    is_asp      boolean             NOT NULL,
+    is_asp      asp_status          NOT NULL,
     gender      gender_enum         NOT NULL,
     age         integer             NOT NULL,
     kids        integer,
