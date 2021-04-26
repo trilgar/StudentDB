@@ -75,7 +75,7 @@ create table graduate_work
     id_student  integer UNIQUE     NOT NULL REFERENCES students (id),
     id_teacher  integer UNIQUE     NOT NULL REFERENCES teachers (id),
     year        integer            NOT NULL,
-    name        varchar(20)        NOT NULL,
+    name        varchar(20) UNIQUE NOT NULL,
     description varchar(300)
 );
 create table exam

@@ -2,6 +2,7 @@ package com.stdb.service.cathedra;
 
 import com.stdb.dao.cathedra.CathedraDao;
 import com.stdb.entity.Cathedra;
+import com.stdb.helpers.IntervalFilter;
 import com.stdb.helpers.exceptions.ForeignKeyViolationException;
 import com.stdb.helpers.exceptions.NameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +15,15 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CathedraServiceImpl implements CathedraService{
+public class CathedraServiceImpl implements CathedraService {
     private final CathedraDao cathedraDao;
 
     @Override
     public Cathedra createCathedra(Cathedra cathedra) {
         Cathedra newCathedra;
-        try{
+        try {
             newCathedra = cathedraDao.createCathedra(cathedra);
-        }
-        catch (DataIntegrityViolationException ex){
+        } catch (DataIntegrityViolationException ex) {
             log.error(ex.getMessage());
             throw new NameAlreadyExistsException();
         }
@@ -33,10 +33,9 @@ public class CathedraServiceImpl implements CathedraService{
     @Override
     public Cathedra editCathedra(Cathedra cathedra, int idCathedra) {
         Cathedra newCathedra;
-        try{
-            newCathedra = cathedraDao.editCathedra(cathedra,idCathedra);
-        }
-        catch (DataIntegrityViolationException ex){
+        try {
+            newCathedra = cathedraDao.editCathedra(cathedra, idCathedra);
+        } catch (DataIntegrityViolationException ex) {
             log.error(ex.getMessage());
             throw new NameAlreadyExistsException();
         }
@@ -45,10 +44,9 @@ public class CathedraServiceImpl implements CathedraService{
 
     @Override
     public void deleteCathedra(int idCathedra) {
-        try{
+        try {
             cathedraDao.deleteCathedra(idCathedra);
-        }
-        catch (DataIntegrityViolationException ex) {
+        } catch (DataIntegrityViolationException ex) {
             log.error(ex.getMessage());
             throw new ForeignKeyViolationException();
         }
@@ -67,5 +65,15 @@ public class CathedraServiceImpl implements CathedraService{
     @Override
     public List<Cathedra> getByContainName(String name) {
         return cathedraDao.getByContainName(name);
+    }
+
+    @Override
+    public List<Cathedra> getByGroup(int idGroup, int idFaculty, IntervalFilter semester) {
+        return cathedraDao.getByGroup(idGroup, idFaculty, semester);
+    }
+
+    @Override
+    public List<Cathedra> getByCourse(int idCourse, int idFaculty, IntervalFilter semester) {
+        return cathedraDao.getByCourse(idCourse, idFaculty, semester);
     }
 }

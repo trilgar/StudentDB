@@ -2,6 +2,7 @@ package com.stdb.controllers;
 
 
 import com.stdb.entity.Cathedra;
+import com.stdb.helpers.IntervalFilter;
 import com.stdb.helpers.ServerStatusResponse;
 import com.stdb.service.cathedra.CathedraService;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,21 @@ public class CathedraController {
     @GetMapping("/by_name")
     public List<Cathedra> getCathedraByContainName(@RequestParam("name") String name) {
         return cathedraService.getByContainName(name);
+    }
+
+    @GetMapping("/by_group")
+    public List<Cathedra> getCByGroupID(@RequestParam("idGroup") int idGroup,
+                                        @RequestParam("idFaculty") int idFaculty,
+                                        @RequestParam("semFrom") int from,
+                                        @RequestParam("semTo") int to) {
+        return cathedraService.getByGroup(idGroup, idFaculty, new IntervalFilter(from, to));
+    }
+
+    @GetMapping("/by_course")
+    public List<Cathedra> getCByCourseID(@RequestParam("idCourse") int idCourse,
+                                         @RequestParam("idFaculty") int idFaculty,
+                                         @RequestParam("semFrom") int from,
+                                         @RequestParam("semTo") int to) {
+        return cathedraService.getByCourse(idCourse, idFaculty, new IntervalFilter(from, to));
     }
 }

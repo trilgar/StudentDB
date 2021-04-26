@@ -1,6 +1,7 @@
 package com.stdb.service.cathedra;
 
 import com.stdb.entity.Cathedra;
+import com.stdb.helpers.IntervalFilter;
 
 import java.util.List;
 
@@ -16,4 +17,8 @@ public interface CathedraService {
     Cathedra getByName(String name);
 
     List<Cathedra> getByContainName(String name);
+
+    List<Cathedra> getByGroup(int idGroup, int idFaculty, IntervalFilter semester);
+
+    List<Cathedra> getByCourse(int idCourse, int idFaculty, IntervalFilter semester);
 }
