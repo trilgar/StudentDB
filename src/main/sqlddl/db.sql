@@ -85,8 +85,7 @@ create table exam
     id_discipline integer            NOT NULL REFERENCES discipline (id),
     id_student    integer            NOT NULL REFERENCES students (id),
     description   varchar(300),
-    mark          integer            NOT NULL,
-    result        boolean            NOT NULL
+    mark          integer            NOT NULL
 );
 
 
