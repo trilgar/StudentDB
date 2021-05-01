@@ -17,4 +17,9 @@ public interface TeacherService {
     List<Teacher> getByFaculty(String[] faculty, Map<String, Object> filters);
 
     List<Teacher> getByCathedra(String[] cathedras, Map<String, Object> filters);
+
+    List<Teacher> getByGroup(String dName, int idGroup, int idFaculty);
+
+    List<Teacher> getByCourse(String dName, int course, int idFaculty);
+
 }

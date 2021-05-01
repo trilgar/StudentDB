@@ -1,4 +1,4 @@
-package com.stdb.dao.Teacher;
+package com.stdb.dao.teacher;
 
 import com.stdb.entity.Teacher;
 import com.stdb.service.filterbuilder.MainFilterBuilder;
@@ -84,7 +84,7 @@ public class TeacherDaoImpl implements TeacherDao {
     public List<Teacher> getByFaculty(String[] faculties, Map<String, Object> filters) {
         StringBuilder facultiesFilter = new StringBuilder("WHERE (");
         for (String faculty : faculties) {
-            facultiesFilter.append("fct.name = ").append("\'").append(faculty).append("\'").append(" OR ");
+            facultiesFilter.append("fct.name = ").append("'").append(faculty).append("'").append(" OR ");
         }
         facultiesFilter.delete(facultiesFilter.length() - 4, facultiesFilter.length() - 1);
         facultiesFilter.append(") AND ");
@@ -105,7 +105,7 @@ public class TeacherDaoImpl implements TeacherDao {
     public List<Teacher> getByCathedra(String[] cathedras, Map<String, Object> filters) {
         StringBuilder cathedrasFilter = new StringBuilder("WHERE (");
         for (String cathedra : cathedras) {
-            cathedrasFilter.append("cfd.name = ").append("\'").append(cathedra).append("\'").append(" OR ");
+            cathedrasFilter.append("cfd.name = ").append("'").append(cathedra).append("'").append(" OR ");
         }
         cathedrasFilter.delete(cathedrasFilter.length() - 4, cathedrasFilter.length() - 1);
         cathedrasFilter.append(") AND ");
@@ -118,6 +118,38 @@ public class TeacherDaoImpl implements TeacherDao {
 
         return jdbcTemplate.query(
                 sql,
+                new TeacherRowMapper()
+        );
+    }
+
+    @Override
+    public List<Teacher> getByGroup(String dName, int idGroup, int idFaculty) {
+        String sql = "SELECT DISTINCT teachers.id, teachers.name, id_faculty, category, year, wage, is_asp, gender, age, kids, id_cathedra  " +
+                "FROM teachers INNER JOIN discipline d on teachers.id = d.id_teacher " +
+                "WHERE d.name = ? AND d.id_group = ? AND teachers.id_faculty = ?";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> {
+                    preparedStatement.setString(1, dName);
+                    preparedStatement.setInt(2, idGroup);
+                    preparedStatement.setInt(3, idFaculty);
+                },
+                new TeacherRowMapper()
+        );
+    }
+
+    @Override
+    public List<Teacher> getByCourse(String dName, int course, int idFaculty) {
+        String sql = "SELECT DISTINCT teachers.id, teachers.name, id_faculty, category, year, wage, is_asp, gender, age, kids, id_cathedra  " +
+                "FROM teachers INNER JOIN discipline d on teachers.id = d.id_teacher " +
+                "WHERE d.name = ? AND d.course = ? AND teachers.id_faculty = ?";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> {
+                    preparedStatement.setString(1, dName);
+                    preparedStatement.setInt(2, course);
+                    preparedStatement.setInt(3, idFaculty);
+                },
                 new TeacherRowMapper()
         );
     }

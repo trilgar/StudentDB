@@ -1,4 +1,4 @@
-package com.stdb.dao.Teacher;
+package com.stdb.dao.teacher;
 
 import com.stdb.entity.AspStatus;
 import com.stdb.entity.Gender;

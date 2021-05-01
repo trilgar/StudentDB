@@ -1,6 +1,7 @@
 package com.stdb.service.discipline;
 
 import com.stdb.entity.Discipline;
+import com.stdb.entity.Teacher;
 
 public interface DisciplineService {
     Discipline create(Discipline discipline);
@@ -11,5 +12,4 @@ public interface DisciplineService {
 
     Discipline getById(int idDiscipline);
 
-    Discipline getByName(String name);
 }

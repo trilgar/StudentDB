@@ -1,6 +1,7 @@
 package com.stdb.dao.discipline;
 
 import com.stdb.entity.Discipline;
+import com.stdb.entity.Teacher;
 
 public interface DisciplineDao {
     Discipline create(Discipline discipline);
@@ -11,5 +12,5 @@ public interface DisciplineDao {
 
     Discipline getById(int idDiscipline);
 
-    Discipline getByName(String name);
+    Discipline getByItems(Discipline discipline);
 }

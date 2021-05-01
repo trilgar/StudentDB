@@ -64,7 +64,7 @@ create table discipline
     type       d_type             NOT NULL,
     id_teacher integer            NOT NULL REFERENCES teachers (id),
     id_group   integer            NOT NULL REFERENCES groups (id),
-    name       varchar(20) UNIQUE NOT NULL,
+    name       varchar(20)        NOT NULL,
     hours      integer            NOT NULL,
     course     integer            NOT NULL,
     semester   integer            NOT NULL

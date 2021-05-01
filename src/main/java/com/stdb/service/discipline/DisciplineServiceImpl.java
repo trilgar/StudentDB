@@ -2,6 +2,7 @@ package com.stdb.service.discipline;
 
 import com.stdb.dao.discipline.DisciplineDao;
 import com.stdb.entity.Discipline;
+import com.stdb.entity.Teacher;
 import com.stdb.helpers.exceptions.ForeignKeyViolationException;
 import com.stdb.helpers.exceptions.NameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
@@ -51,8 +52,4 @@ public class DisciplineServiceImpl implements DisciplineService {
         return disciplineDao.getById(idDiscipline);
     }
 
-    @Override
-    public Discipline getByName(String name) {
-        return disciplineDao.getByName(name);
-    }
 }

@@ -33,8 +33,4 @@ public class DisciplineController {
         return disciplineService.getById(idDiscipline);
     }
 
-    @GetMapping
-    public Discipline getDisciplineByName(@RequestParam("name") String name) {
-        return disciplineService.getByName(name);
-    }
 }

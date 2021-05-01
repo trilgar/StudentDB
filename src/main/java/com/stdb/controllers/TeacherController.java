@@ -47,4 +47,18 @@ public class TeacherController {
     public List<Teacher> getTeachersByCathedra(@RequestBody StudentSearchDto<String> ssd) {
         return teacherService.getByCathedra(ssd.getMainSearchCriteria(), ssd.getFilters());
     }
+
+    @GetMapping("/by_group")
+    public List<Teacher> getByGroup(@RequestParam("dName") String dName,
+                                    @RequestParam("idGroup") int idGroup,
+                                    @RequestParam("idFaculty") int idFaculty) {
+        return teacherService.getByGroup(dName, idGroup, idFaculty);
+    }
+
+    @GetMapping("/by_course")
+    public List<Teacher> getByCourse(@RequestParam("dName") String dName,
+                                     @RequestParam("course") int course,
+                                     @RequestParam("idFaculty") int idFaculty) {
+        return teacherService.getByCourse(dName, course, idFaculty);
+    }
 }

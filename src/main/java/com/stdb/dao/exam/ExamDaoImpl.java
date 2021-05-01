@@ -1,4 +1,4 @@
-package com.stdb.dao.ExamDao;
+package com.stdb.dao.exam;
 
 import com.stdb.entity.Exam;
 import org.springframework.beans.factory.annotation.Autowired;

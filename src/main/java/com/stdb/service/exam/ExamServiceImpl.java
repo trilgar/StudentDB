@@ -1,6 +1,6 @@
 package com.stdb.service.exam;
 
-import com.stdb.dao.ExamDao.ExamDao;
+import com.stdb.dao.exam.ExamDao;
 import com.stdb.entity.Exam;
 import com.stdb.helpers.exceptions.ForeignKeyViolationException;
 import com.stdb.helpers.exceptions.NameAlreadyExistsException;

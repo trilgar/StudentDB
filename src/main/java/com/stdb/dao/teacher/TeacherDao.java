@@ -1,6 +1,5 @@
-package com.stdb.dao.Teacher;
+package com.stdb.dao.teacher;
 
-import com.stdb.entity.Student;
 import com.stdb.entity.Teacher;
 
 import java.util.List;
@@ -16,5 +15,11 @@ public interface TeacherDao {
     Teacher getByName(String name);
 
     List<Teacher> getByFaculty(String[] faculties, Map<String, Object> filters);
+
     List<Teacher> getByCathedra(String[] cathedras, Map<String, Object> filters);
+
+    List<Teacher> getByGroup(String dName, int idGroup, int idFaculty);
+
+    List<Teacher> getByCourse(String dName, int course, int idFaculty);
+
 }

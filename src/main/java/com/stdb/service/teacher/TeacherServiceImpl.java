@@ -1,6 +1,6 @@
 package com.stdb.service.teacher;
 
-import com.stdb.dao.Teacher.TeacherDao;
+import com.stdb.dao.teacher.TeacherDao;
 import com.stdb.entity.Teacher;
 import com.stdb.helpers.exceptions.ForeignKeyViolationException;
 import com.stdb.helpers.exceptions.NameAlreadyExistsException;
@@ -61,5 +61,15 @@ public class TeacherServiceImpl implements TeacherService{
     @Override
     public List<Teacher> getByCathedra(String[] cathedras, Map<String, Object> filters) {
         return teacherDao.getByCathedra(cathedras, filters);
+    }
+
+    @Override
+    public List<Teacher> getByGroup(String dName, int idGroup, int idFaculty) {
+        return teacherDao.getByGroup(dName, idGroup, idFaculty);
+    }
+
+    @Override
+    public List<Teacher> getByCourse(String dName, int course, int idFaculty) {
+        return teacherDao.getByCourse(dName, course, idFaculty);
     }
 }
