@@ -67,4 +67,9 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getByCourse(Integer[] courses, Map<String, Object> filters) {
         return studentDao.getByCourse(courses, filters);
     }
+
+    @Override
+    public List<Student> getByDisciplineAndMark(List<Integer> groupIds, int idDiscipline, int mark) {
+        return studentDao.getByDisciplineAndMark(groupIds, idDiscipline, mark);
+    }
 }

@@ -7,7 +7,11 @@ import com.stdb.service.student.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,13 +46,21 @@ public class StudentController {
     }
 
     @PostMapping("/by_group")
-    public List<Student> getStudentsByGroup(@RequestBody StudentSearchDto<String> ssd){
+    public List<Student> getStudentsByGroup(@RequestBody StudentSearchDto<String> ssd) {
         return studentService.getByGroup(ssd.getMainSearchCriteria(), ssd.getFilters());
     }
 
     @PostMapping("/by_course")
-    public List<Student> getStudentsByCourse(@RequestBody StudentSearchDto<Integer> ssd){
+    public List<Student> getStudentsByCourse(@RequestBody StudentSearchDto<Integer> ssd) {
         return studentService.getByCourse(ssd.getMainSearchCriteria(), ssd.getFilters());
+    }
+
+    @GetMapping("by_disc_and_mark")
+    public List<Student> getByDisciplineAndMark(@RequestParam("groups") String groups,
+                                                @RequestParam("idDiscipline") int idDiscipline,
+                                                @RequestParam("mark") int mark) {
+        List<Integer> groupIds = Arrays.stream(groups.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        return studentService.getByDisciplineAndMark(groupIds, idDiscipline, mark);
     }
 
 }

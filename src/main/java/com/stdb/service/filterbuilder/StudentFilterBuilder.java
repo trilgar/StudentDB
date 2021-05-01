@@ -1,7 +1,9 @@
 package com.stdb.service.filterbuilder;
 
+import com.stdb.entity.TeacherCategory;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -50,5 +52,15 @@ public class StudentFilterBuilder {
             }
         }
         return sql.substring(5);
+    }
+
+    public static String getFilterByGroup(List<Integer> groupIds) {
+        StringBuilder sql = new StringBuilder("WHERE s.id_group IN(");
+        for(int groupId: groupIds){
+            sql.append(groupId).append(",");
+        }
+        sql.deleteCharAt(sql.length() - 1);
+        sql.append(")");
+        return sql.toString();
     }
 }

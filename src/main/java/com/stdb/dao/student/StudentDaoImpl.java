@@ -87,15 +87,15 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public List<Student> getByGroup(String[] groups, Map<String, Object> filters) {
         StringBuilder groupsFilter = new StringBuilder("WHERE (");
-        for(String group: groups) {
+        for (String group : groups) {
             groupsFilter.append("grp.name = ").append("\'").append(group).append("\'").append(" OR ");
         }
-        groupsFilter.delete(groupsFilter.length() - 4, groupsFilter.length()-1);
+        groupsFilter.delete(groupsFilter.length() - 4, groupsFilter.length() - 1);
         groupsFilter.append(") AND ");
 
-        String sql= "SELECT std.id, std.name, std.id_group, std.id_faculty, std.stipendium, std.gender, std.age, std.kids " +
+        String sql = "SELECT DISTINCT std.id, std.name, std.id_group, std.id_faculty, std.stipendium, std.gender, std.age, std.kids " +
                 "FROM students std INNER JOIN groups grp " +
-                "ON std.id_group = grp.id " ;
+                "ON std.id_group = grp.id ";
         sql += groupsFilter;
         sql += StudentFilterBuilder.buildFilter(filters);
 
@@ -108,20 +108,36 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public List<Student> getByCourse(Integer[] courses, Map<String, Object> filters) {
         StringBuilder courseFilter = new StringBuilder("WHERE grp.course IN(");
-        for(int course: courses){
+        for (int course : courses) {
             courseFilter.append(course).append(",");
         }
         courseFilter.deleteCharAt(courseFilter.length() - 1);
         courseFilter.append(") AND ");
 
-        String sql= "SELECT std.id, std.name, std.id_group, std.id_faculty, std.stipendium, std.gender, std.age, std.kids " +
+        String sql = "SELECT DISTINCT std.id, std.name, std.id_group, std.id_faculty, std.stipendium, std.gender, std.age, std.kids " +
                 "FROM students std INNER JOIN groups grp " +
-                "ON std.id_group = grp.id " ;
+                "ON std.id_group = grp.id ";
         sql += courseFilter;
         sql += StudentFilterBuilder.buildFilter(filters);
 
         return jdbcTemplate.query(
                 sql,
+                new StudentRowMapper()
+        );
+    }
+
+    @Override
+    public List<Student> getByDisciplineAndMark(List<Integer> groupIds, int idDiscipline, int mark) {
+        String sql = "SELECT DISTINCT s.id, name, id_group, id_faculty, stipendium, gender, age, kids " +
+                "FROM students s INNER JOIN exam e on s.id = e.id_student ";
+        sql += StudentFilterBuilder.getFilterByGroup(groupIds);
+        sql += " AND e.id_discipline =? AND e.mark = ?";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> {
+                    preparedStatement.setInt(1, idDiscipline);
+                    preparedStatement.setInt(2, mark);
+                },
                 new StudentRowMapper()
         );
     }

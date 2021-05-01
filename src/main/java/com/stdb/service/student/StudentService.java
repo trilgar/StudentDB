@@ -19,4 +19,6 @@ public interface StudentService {
     List<Student> getByGroup(String[] group, Map<String, Object> filters);
 
     List<Student> getByCourse(Integer[] course, Map<String, Object> filters);
+
+    List<Student> getByDisciplineAndMark(List<Integer> groupIds,int idDiscipline, int mark);
 }
