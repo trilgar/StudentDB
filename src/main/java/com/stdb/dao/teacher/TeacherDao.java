@@ -1,6 +1,8 @@
 package com.stdb.dao.teacher;
 
 import com.stdb.entity.Teacher;
+import com.stdb.entity.TeacherCategory;
+import com.stdb.helpers.IntervalFilter;
 
 import java.util.List;
 import java.util.Map;
@@ -21,5 +23,9 @@ public interface TeacherDao {
     List<Teacher> getByGroup(String dName, int idGroup, int idFaculty);
 
     List<Teacher> getByCourse(String dName, int course, int idFaculty);
+
+    List<Teacher> getByCategoryGroup(List<TeacherCategory> teacherCategories, int idGroup, int idFaculty, IntervalFilter semester);
+
+    List<Teacher> getByCategoryCourse(List<TeacherCategory> teacherCategories, int course, int idFaculty, IntervalFilter semester);
 
 }

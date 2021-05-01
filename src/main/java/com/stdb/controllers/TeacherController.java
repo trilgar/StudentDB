@@ -1,6 +1,8 @@
 package com.stdb.controllers;
 
 import com.stdb.entity.Teacher;
+import com.stdb.entity.TeacherCategory;
+import com.stdb.helpers.IntervalFilter;
 import com.stdb.helpers.ServerStatusResponse;
 import com.stdb.helpers.StudentSearchDto;
 import com.stdb.service.teacher.TeacherService;
@@ -8,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -60,5 +64,32 @@ public class TeacherController {
                                      @RequestParam("course") int course,
                                      @RequestParam("idFaculty") int idFaculty) {
         return teacherService.getByCourse(dName, course, idFaculty);
+    }
+
+    @GetMapping("by_category_group")
+    public List<Teacher> getByCategoryGroup(@RequestParam("categories") String categories,
+                                            @RequestParam("idGroup") int idGroup,
+                                            @RequestParam("idFaculty") int idFaculty,
+                                            @RequestParam("from") int from,
+                                            @RequestParam("to") int to) {
+        List<TeacherCategory> teacherCategories = Arrays.stream(categories.split(","))
+                .map(TeacherCategory::valueOf)
+                .collect(Collectors.toList());
+        IntervalFilter semester = new IntervalFilter(from, to);
+        return teacherService.getByCategoryGroup(teacherCategories, idGroup, idFaculty, semester);
+    }
+
+    @GetMapping("by_category_course")
+    public List<Teacher> getByCategoryCourse(@RequestParam("categories") String categories,
+                                             @RequestParam("course") int course,
+                                             @RequestParam("idFaculty") int idFaculty,
+                                             @RequestParam("from") int from,
+                                             @RequestParam("to") int to) {
+        List<TeacherCategory> teacherCategories = Arrays.stream(categories.split(","))
+                .map(TeacherCategory::valueOf)
+                .collect(Collectors.toList());
+
+        IntervalFilter semester = new IntervalFilter(from, to);
+        return teacherService.getByCategoryCourse(teacherCategories, course, idFaculty, semester);
     }
 }

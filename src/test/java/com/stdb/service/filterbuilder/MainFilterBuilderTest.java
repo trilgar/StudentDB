@@ -1,6 +1,7 @@
 package com.stdb.service.filterbuilder;
 
 import com.stdb.entity.Gender;
+import com.stdb.entity.TeacherCategory;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -43,5 +44,12 @@ class MainFilterBuilderTest {
         assertEquals("tcr.gender = 'MALE' AND (tcr.age BETWEEN 11 AND 12) AND (tcr.year BETWEEN 1 AND 3) AND " +
                         "(tcr.kids BETWEEN 1 AND 3) AND (tcr.wage BETWEEN 100 AND 200) AND tcr.is_asp = TRUE AND (sw.year BETWEEN 2000 AND 2001) AND ( tcr.category = Assistant OR tcr.category = Lecturer)",
                 MainFilterBuilder.getTeacherFilter(filters));
+    }
+    @Test
+    void getTeacherCategoryFilter(){
+        List<TeacherCategory> teacherCategories = Arrays.asList(TeacherCategory.Assistant, TeacherCategory.Lecturer,
+                TeacherCategory.SeniorLecturer, TeacherCategory.Docent,TeacherCategory.Professor);
+        String sql = MainFilterBuilder.getTeacherCategoryFilter(teacherCategories);
+        assertEquals(sql, "WHERE t.category IN('Assistant','Lecturer','SeniorLecturer','Docent','Professor')");
     }
 }

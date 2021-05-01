@@ -1,5 +1,7 @@
 package com.stdb.service.filterbuilder;
 
+import com.stdb.entity.TeacherCategory;
+
 import java.util.List;
 import java.util.Map;
 
@@ -65,5 +67,14 @@ public class MainFilterBuilder {
         }
         return sql.substring(5);
 
+    }
+    public static String getTeacherCategoryFilter(List<TeacherCategory> teacherCategories){
+        StringBuilder sql = new StringBuilder("WHERE t.category IN(");
+        for(TeacherCategory teacherCategory: teacherCategories){
+            sql.append("'").append(teacherCategory.toString()).append("'").append(",");
+        }
+        sql.deleteCharAt(sql.length() - 1);
+        sql.append(")");
+        return sql.toString();
     }
 }
