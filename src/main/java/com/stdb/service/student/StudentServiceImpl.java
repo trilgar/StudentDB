@@ -74,12 +74,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark) {
-        return studentDao.getByGroupAndMarks(groupIds, idFaculty, minMark);
+    public List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark, int semester) {
+        return studentDao.getByGroupAndMarks(groupIds, idFaculty, minMark, semester);
     }
 
     @Override
-    public List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark) {
-        return studentDao.getByCourseAndMarks(course, idFaculty, minMark);
+    public List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark, int semester) {
+        return studentDao.getByCourseAndMarks(course, idFaculty, minMark, semester);
     }
 }

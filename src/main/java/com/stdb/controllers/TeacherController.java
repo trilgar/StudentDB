@@ -92,4 +92,11 @@ public class TeacherController {
         IntervalFilter semester = new IntervalFilter(from, to);
         return teacherService.getByCategoryCourse(teacherCategories, course, idFaculty, semester);
     }
+
+    @GetMapping("by_exams")
+    public List<Teacher> getByExams(@RequestParam("idGroup") int idGroup,
+                                    @RequestParam("dName") String dName,
+                                    @RequestParam("semester") int semester) {
+        return teacherService.getByExams(idGroup, dName, semester);
+    }
 }

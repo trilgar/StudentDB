@@ -7,8 +7,6 @@ import com.stdb.service.student.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,16 +64,18 @@ public class StudentController {
     @GetMapping("by_grp_mrk")
     public List<Student> getByGroupAndMarks(@RequestParam("groups") String groups,
                                             @RequestParam("idFaculty") int idFaculty,
-                                            @RequestParam("mark") int mark) {
+                                            @RequestParam("mark") int mark,
+                                            @RequestParam("semester") int semester) {
         List<Integer> groupIds = Arrays.stream(groups.split(",")).map(Integer::parseInt).collect(Collectors.toList());
-        return studentService.getByGroupAndMarks(groupIds, idFaculty, mark);
+        return studentService.getByGroupAndMarks(groupIds, idFaculty, mark, semester);
     }
 
     @GetMapping("by_crs_mrk")
     public List<Student> getByCourseAndMarks(@RequestParam("course") int course,
                                              @RequestParam("idFaculty") int idFaculty,
-                                             @RequestParam("mark") int mark) {
-        return studentService.getByCourseAndMarks(course, idFaculty, mark);
+                                             @RequestParam("mark") int mark,
+                                             @RequestParam("semester") int semester) {
+        return studentService.getByCourseAndMarks(course, idFaculty, mark, semester);
     }
 
 }

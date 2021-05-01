@@ -28,4 +28,6 @@ public interface TeacherDao {
 
     List<Teacher> getByCategoryCourse(List<TeacherCategory> teacherCategories, int course, int idFaculty, IntervalFilter semester);
 
+    List<Teacher> getByExams(int idGroup, String dName, int semester);
+
 }

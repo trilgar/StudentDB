@@ -143,18 +143,20 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark) {
-        String sql = "SELECT DISTINCT s.id,name,id_group,id_faculty,stipendium,gender,age,kids " +
+    public List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark, int semester) {
+        String sql = "SELECT DISTINCT s.id,s.name,s.id_group,id_faculty,stipendium,gender,age,kids " +
                 "FROM (" +
                 "         select id_student id_s, min(mark) as m" +
                 "         FROM exam" +
                 "         GROUP BY id_student " +
                 "         HAVING max(exam.mark) >= ? " +
                 "     ) max_mark " +
-                "INNER JOIN students s on max_mark.id_s = s.id ";
+                "INNER JOIN students s on max_mark.id_s = s.id " +
+                "INNER JOIN exam e on s.id = e.id_student " +
+                "INNER JOIN discipline d on d.id = e.id_discipline ";
 
         sql += StudentFilterBuilder.getFilterByGroup(groupIds);
-        sql += " AND s.id_faculty = ?";
+        sql += " AND s.id_faculty = ? AND d.semester = ? ";
 
 
         return jdbcTemplate.query(
@@ -162,14 +164,15 @@ public class StudentDaoImpl implements StudentDao {
                 preparedStatement -> {
                     preparedStatement.setInt(1, minMark);
                     preparedStatement.setInt(2, idFaculty);
+                    preparedStatement.setInt(3, semester);
                 },
                 new StudentRowMapper()
         );
     }
 
     @Override
-    public List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark) {
-        String sql = "SELECT DISTINCT s.id,s.name,id_group,id_faculty,stipendium,gender,age,kids " +
+    public List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark, int semester) {
+        String sql = "SELECT DISTINCT s.id,s.name,s.id_group,id_faculty,stipendium,gender,age,kids " +
                 "FROM (" +
                 "         select id_student id_s, min(mark) as m" +
                 "         FROM exam" +
@@ -178,7 +181,8 @@ public class StudentDaoImpl implements StudentDao {
                 "     ) max_mark " +
                 "INNER JOIN students s on max_mark.id_s = s.id " +
                 "INNER JOIN groups g on s.id_group = g.id " +
-                "WHERE g.course = ? AND s.id_faculty = ?";
+                "INNER JOIN discipline d on g.id = d.id_group " +
+                "WHERE g.course = ? AND s.id_faculty = ? AND d.semester = ?";
 
         return jdbcTemplate.query(
                 sql,
@@ -186,6 +190,7 @@ public class StudentDaoImpl implements StudentDao {
                     preparedStatement.setInt(1, minMark);
                     preparedStatement.setInt(2, course);
                     preparedStatement.setInt(3, idFaculty);
+                    preparedStatement.setInt(4, semester);
                 },
                 new StudentRowMapper()
         );
