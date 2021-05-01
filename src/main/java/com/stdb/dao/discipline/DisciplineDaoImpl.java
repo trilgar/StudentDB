@@ -2,12 +2,14 @@ package com.stdb.dao.discipline;
 
 import com.stdb.entity.DType;
 import com.stdb.entity.Discipline;
-import com.stdb.entity.Teacher;
+import com.stdb.entity.DisciplineLoad;
+import com.stdb.entity.TypeToHours;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -92,5 +94,103 @@ public class DisciplineDaoImpl implements DisciplineDao {
                 new DisciplineRowMapper()
         );
         return disciplines.size() == 1 ? disciplines.get(0) : null;
+    }
+
+    @Override
+    public List<DisciplineLoad> getTeachersLoad(int semester, int idTeacher) {
+        jdbcTemplate.update("TRUNCATE summary");
+        String sql = "INSERT INTO summary (name, type, hours) " +
+                "(SELECT name, type, sum(hours) as hours " +
+                "           FROM discipline " +
+                "           WHERE semester = ? AND id_teacher = ?" +
+                "           GROUP BY type, name )";
+        jdbcTemplate.update(
+                sql,
+                semester,
+                idTeacher);
+        sql = "SELECT DISTINCT name FROM summary";
+        List<String> disciplineNames = jdbcTemplate.query(
+                sql,
+                (resultSet, i) -> resultSet.getString("name")
+        );
+        sql = "SELECT type, hours FROM summary WHERE name = ?";
+
+        List<DisciplineLoad> disciplineLoads = new ArrayList<>();
+        for (String discipline : disciplineNames) {
+            List<TypeToHours> entries = jdbcTemplate.query(
+                    sql,
+                    preparedStatement -> preparedStatement.setString(1, discipline),
+                    (resultSet, i) -> new TypeToHours(DType.valueOf(resultSet.getString("type")), resultSet.getInt("hours"))
+            );
+            disciplineLoads.add(this.toDisciplineLoad(discipline, entries));
+
+        }
+        return disciplineLoads;
+
+    }
+
+    @Override
+    public List<DisciplineLoad> getLoadByCathedra(int semester, int idCathedra) {
+        jdbcTemplate.update("TRUNCATE summary");
+        String sql = "INSERT INTO summary (name, type, hours) " +
+                "(SELECT discipline.name, type, sum(hours) as hours " +
+                "           FROM discipline " +
+                "           INNER JOIN teachers t on t.id = discipline.id_teacher " +
+                "           WHERE semester = ? AND id_cathedra = ?" +
+                "           GROUP BY type, discipline.name )";
+        jdbcTemplate.update(
+                sql,
+                semester,
+                idCathedra);
+        sql = "SELECT DISTINCT name FROM summary";
+        List<String> disciplineNames = jdbcTemplate.query(
+                sql,
+                (resultSet, i) -> resultSet.getString("name")
+        );
+        sql = "SELECT type, hours FROM summary WHERE name = ?";
+
+        List<DisciplineLoad> disciplineLoads = new ArrayList<>();
+        for (String discipline : disciplineNames) {
+            List<TypeToHours> entries = jdbcTemplate.query(
+                    sql,
+                    preparedStatement -> preparedStatement.setString(1, discipline),
+                    (resultSet, i) -> new TypeToHours(DType.valueOf(resultSet.getString("type")), resultSet.getInt("hours"))
+            );
+            disciplineLoads.add(this.toDisciplineLoad(discipline, entries));
+
+        }
+        return disciplineLoads;
+    }
+
+    private DisciplineLoad toDisciplineLoad(String name, List<TypeToHours> entries) {
+        DisciplineLoad disciplineLoad = new DisciplineLoad();
+        for (TypeToHours entry : entries) {
+            switch (entry.getType()) {
+                case Lection: {
+                    disciplineLoad.setLectionHours(entry.getHours());
+                    break;
+                }
+                case Seminar: {
+                    disciplineLoad.setSeminarHours(entry.getHours());
+                    break;
+                }
+                case LabWork: {
+                    disciplineLoad.setLabWorkHours(entry.getHours());
+                    break;
+                }
+                case Consultancy: {
+                    disciplineLoad.setConsultancyHours(entry.getHours());
+                    break;
+                }
+                case CourseWork: {
+                    disciplineLoad.setCourseworkHours(entry.getHours());
+                    break;
+                }
+
+            }
+        }
+        disciplineLoad.setDisciplineName(name);
+        return disciplineLoad;
+
     }
 }

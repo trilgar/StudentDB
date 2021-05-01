@@ -2,13 +2,15 @@ package com.stdb.service.discipline;
 
 import com.stdb.dao.discipline.DisciplineDao;
 import com.stdb.entity.Discipline;
-import com.stdb.entity.Teacher;
+import com.stdb.entity.DisciplineLoad;
 import com.stdb.helpers.exceptions.ForeignKeyViolationException;
 import com.stdb.helpers.exceptions.NameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -52,4 +54,13 @@ public class DisciplineServiceImpl implements DisciplineService {
         return disciplineDao.getById(idDiscipline);
     }
 
+    @Override
+    public List<DisciplineLoad> getTeachersLoad(int semester, int idTeacher) {
+        return disciplineDao.getTeachersLoad(semester, idTeacher);
+    }
+
+    @Override
+    public List<DisciplineLoad> getLoadByCathedra(int semester, int idCathedra) {
+        return disciplineDao.getLoadByCathedra(semester, idCathedra);
+    }
 }

@@ -1,10 +1,13 @@
 package com.stdb.controllers;
 
 import com.stdb.entity.Discipline;
+import com.stdb.entity.DisciplineLoad;
 import com.stdb.helpers.ServerStatusResponse;
 import com.stdb.service.discipline.DisciplineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +34,18 @@ public class DisciplineController {
     @GetMapping("/{idDiscipline}")
     public Discipline getDisciplineById(@PathVariable int idDiscipline) {
         return disciplineService.getById(idDiscipline);
+    }
+
+    @GetMapping("load/by_teacher")
+    public List<DisciplineLoad> getLoadByTeachersId(@RequestParam("semester") int semester,
+                                                    @RequestParam("idTeacher") int idTeacher) {
+        return disciplineService.getTeachersLoad(semester, idTeacher);
+    }
+
+    @GetMapping("load/by_cathedra")
+    public List<DisciplineLoad> getLoadByCathedraId(@RequestParam("semester") int semester,
+                                                    @RequestParam("cathedra") int cathedra) {
+        return disciplineService.getLoadByCathedra(semester, cathedra);
     }
 
 }

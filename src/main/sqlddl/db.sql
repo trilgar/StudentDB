@@ -89,7 +89,7 @@ create table exam
 );
 
 
-
+-- Helping tables --
 create table users
 (
     id       serial primary key  not null,
@@ -97,3 +97,10 @@ create table users
     password varchar(300)        not null,
     name     varchar(100)        not null
 );
+
+create table summary
+(
+    name varchar(100),
+    type d_type,
+    hours integer
+)
