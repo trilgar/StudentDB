@@ -86,4 +86,14 @@ public class TeacherServiceImpl implements TeacherService {
     public List<Teacher> getByExams(int idGroup, String dName, int semester) {
         return teacherDao.getByExams(idGroup, dName, semester);
     }
+
+    @Override
+    public List<Teacher> getHeadOfGwByCathedra(int idCathedra, List<TeacherCategory> teacherCategories) {
+        return teacherDao.getHeadOfGwByCathedra(idCathedra, teacherCategories);
+    }
+
+    @Override
+    public List<Teacher> getHeadOfGwByFaculty(int idFaculty, List<TeacherCategory> teacherCategories) {
+        return teacherDao.getHeadOfGwByFaculty(idFaculty, teacherCategories);
+    }
 }

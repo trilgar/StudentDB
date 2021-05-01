@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,4 +100,33 @@ public class TeacherController {
                                     @RequestParam("semester") int semester) {
         return teacherService.getByExams(idGroup, dName, semester);
     }
+
+    @GetMapping("heads/by_cathedra")
+    public List<Teacher> getHeadsByCathedra(@RequestParam("categories") String categories,
+                                            @RequestParam("idCathedra") int idCathedra) {
+        List<TeacherCategory> teacherCategories;
+        if (categories.isEmpty()) {
+            teacherCategories = Collections.emptyList();
+        } else {
+            teacherCategories = Arrays.stream(categories.split(","))
+                    .map(TeacherCategory::valueOf)
+                    .collect(Collectors.toList());
+        }
+        return teacherService.getHeadOfGwByCathedra(idCathedra, teacherCategories);
+    }
+
+    @GetMapping("heads/by_faculty")
+    public List<Teacher> getHeadsByFaculty(@RequestParam("categories") String categories,
+                                           @RequestParam("idFaculty") int idFaculty) {
+        List<TeacherCategory> teacherCategories;
+        if (categories.isEmpty()) {
+            teacherCategories = Collections.emptyList();
+        } else {
+            teacherCategories = Arrays.stream(categories.split(","))
+                    .map(TeacherCategory::valueOf)
+                    .collect(Collectors.toList());
+        }
+        return teacherService.getHeadOfGwByCathedra(idFaculty, teacherCategories);
+    }
+
 }

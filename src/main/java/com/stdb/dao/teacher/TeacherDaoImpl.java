@@ -210,4 +210,44 @@ public class TeacherDaoImpl implements TeacherDao {
 
         );
     }
+
+    @Override
+    public List<Teacher> getHeadOfGwByCathedra(int idCathedra, List<TeacherCategory> teacherCategories) {
+        String sql = "SELECT DISTINCT t.id, t.name, t.id_faculty, t.category, t.year,t.wage, t.is_asp, t.gender, t.age, t.kids, t.id_cathedra " +
+                "FROM teachers t " +
+                "INNER JOIN graduate_work gw on t.id = gw.id_teacher ";
+
+        if (!teacherCategories.isEmpty()) {
+            sql += MainFilterBuilder.getTeacherCategoryFilter(teacherCategories);
+            sql += " AND t.id_cathedra = ? ";
+        } else {
+            sql += "WHERE t.id_cathedra = ? ";
+        }
+
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setInt(1, idCathedra),
+                new TeacherRowMapper()
+        );
+    }
+
+    @Override
+    public List<Teacher> getHeadOfGwByFaculty(int idFaculty, List<TeacherCategory> teacherCategories) {
+        String sql = "SELECT DISTINCT t.id, t.name, t.id_faculty, t.category, t.year,t.wage, t.is_asp, t.gender, t.age, t.kids, t.id_cathedra " +
+                "FROM teachers t " +
+                "INNER JOIN graduate_work gw on t.id = gw.id_teacher ";
+
+        if (!teacherCategories.isEmpty()) {
+            sql += MainFilterBuilder.getTeacherCategoryFilter(teacherCategories);
+            sql += " AND t.id_cathedra = ? ";
+        } else {
+            sql += "WHERE t.id_faculty = ? ";
+        }
+
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setInt(1, idFaculty),
+                new TeacherRowMapper()
+        );
+    }
 }

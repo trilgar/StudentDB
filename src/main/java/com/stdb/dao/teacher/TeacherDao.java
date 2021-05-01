@@ -30,4 +30,11 @@ public interface TeacherDao {
 
     List<Teacher> getByExams(int idGroup, String dName, int semester);
 
+
+    // 12 task
+    List<Teacher> getHeadOfGwByCathedra(int idCathedra, List<TeacherCategory> teacherCategories);
+
+    List<Teacher> getHeadOfGwByFaculty(int idFaculty, List<TeacherCategory> teacherCategories);
+
+
 }
