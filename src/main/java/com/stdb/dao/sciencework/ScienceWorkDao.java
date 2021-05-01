@@ -1,5 +1,6 @@
 package com.stdb.dao.sciencework;
 
+import com.stdb.entity.CombinedGW;
 import com.stdb.entity.ScienceWork;
 
 import java.util.List;

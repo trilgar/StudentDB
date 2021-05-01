@@ -1,6 +1,9 @@
 package com.stdb.service.graduatework;
 
+import com.stdb.entity.CombinedGW;
 import com.stdb.entity.GraduateWork;
+
+import java.util.List;
 
 public interface GraduateWorkService {
     GraduateWork create(GraduateWork graduateWork);
@@ -12,4 +15,8 @@ public interface GraduateWorkService {
     GraduateWork getById(int idGW);
 
     GraduateWork getByName(String name);
+
+    List<CombinedGW> getByCathedra(int idCathedra);
+
+    List<CombinedGW> getByTeacher(int idTeacher);
 }

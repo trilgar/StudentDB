@@ -2,6 +2,7 @@ package com.stdb.dao.graduatework;
 
 import com.stdb.dao.cathedra.CathedraRowMapper;
 import com.stdb.entity.Cathedra;
+import com.stdb.entity.CombinedGW;
 import com.stdb.entity.GraduateWork;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -80,5 +81,30 @@ public class GraduateWorkDaoImpl implements GraduateWorkDao {
                 preparedStatement -> preparedStatement.setString(1, name),
                 new GraduateWorkRowMapper());
         return graduateWorks.size() == 1 ? graduateWorks.get(0) : null;
+    }
+
+    @Override
+    public List<CombinedGW> getByCathedra(int idCathedra) {
+        String sql = "SELECT DISTINCT s.id as id_student, s.name as student_name, gw.name as gw_name " +
+                "FROM students s INNER JOIN graduate_work gw on s.id = gw.id_student " +
+                "INNER JOIN teachers t on t.id = gw.id_teacher " +
+                "WHERE t.id_cathedra = ?";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setInt(1, idCathedra),
+                new CombinedGWRowMapper()
+        );
+    }
+
+    @Override
+    public List<CombinedGW> getByTeacher(int idTeacher) {
+        String sql = "SELECT DISTINCT s.id as id_student, s.name as student_name, gw.name as gw_name " +
+                "FROM students s INNER JOIN graduate_work gw on s.id = gw.id_student " +
+                "WHERE gw.id_teacher = ?";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setInt(1, idTeacher),
+                new CombinedGWRowMapper()
+        );
     }
 }

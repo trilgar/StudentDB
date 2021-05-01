@@ -1,5 +1,7 @@
 package com.stdb.dao.sciencework;
 
+import com.stdb.dao.graduatework.CombinedGWRowMapper;
+import com.stdb.entity.CombinedGW;
 import com.stdb.entity.ScienceWork;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -93,4 +95,6 @@ public class ScienceWorkDaoImpl implements ScienceWorkDao {
                 },
                 new ScienceWorkRowMapper());
     }
+
+
 }
