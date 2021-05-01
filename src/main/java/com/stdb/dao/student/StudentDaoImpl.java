@@ -88,7 +88,7 @@ public class StudentDaoImpl implements StudentDao {
     public List<Student> getByGroup(String[] groups, Map<String, Object> filters) {
         StringBuilder groupsFilter = new StringBuilder("WHERE (");
         for (String group : groups) {
-            groupsFilter.append("grp.name = ").append("\'").append(group).append("\'").append(" OR ");
+            groupsFilter.append("grp.name = ").append("'").append(group).append("'").append(" OR ");
         }
         groupsFilter.delete(groupsFilter.length() - 4, groupsFilter.length() - 1);
         groupsFilter.append(") AND ");
@@ -137,6 +137,55 @@ public class StudentDaoImpl implements StudentDao {
                 preparedStatement -> {
                     preparedStatement.setInt(1, idDiscipline);
                     preparedStatement.setInt(2, mark);
+                },
+                new StudentRowMapper()
+        );
+    }
+
+    @Override
+    public List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark) {
+        String sql = "SELECT DISTINCT s.id,name,id_group,id_faculty,stipendium,gender,age,kids " +
+                "FROM (" +
+                "         select id_student id_s, min(mark) as m" +
+                "         FROM exam" +
+                "         GROUP BY id_student " +
+                "         HAVING max(exam.mark) >= ? " +
+                "     ) max_mark " +
+                "INNER JOIN students s on max_mark.id_s = s.id ";
+
+        sql += StudentFilterBuilder.getFilterByGroup(groupIds);
+        sql += " AND s.id_faculty = ?";
+
+
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> {
+                    preparedStatement.setInt(1, minMark);
+                    preparedStatement.setInt(2, idFaculty);
+                },
+                new StudentRowMapper()
+        );
+    }
+
+    @Override
+    public List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark) {
+        String sql = "SELECT DISTINCT s.id,s.name,id_group,id_faculty,stipendium,gender,age,kids " +
+                "FROM (" +
+                "         select id_student id_s, min(mark) as m" +
+                "         FROM exam" +
+                "         GROUP BY id_student " +
+                "         HAVING max(exam.mark) >= ? " +
+                "     ) max_mark " +
+                "INNER JOIN students s on max_mark.id_s = s.id " +
+                "INNER JOIN groups g on s.id_group = g.id " +
+                "WHERE g.course = ? AND s.id_faculty = ?";
+
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> {
+                    preparedStatement.setInt(1, minMark);
+                    preparedStatement.setInt(2, course);
+                    preparedStatement.setInt(3, idFaculty);
                 },
                 new StudentRowMapper()
         );

@@ -63,4 +63,19 @@ public class StudentController {
         return studentService.getByDisciplineAndMark(groupIds, idDiscipline, mark);
     }
 
+    @GetMapping("by_grp_mrk")
+    public List<Student> getByGroupAndMarks(@RequestParam("groups") String groups,
+                                            @RequestParam("idFaculty") int idFaculty,
+                                            @RequestParam("mark") int mark) {
+        List<Integer> groupIds = Arrays.stream(groups.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        return studentService.getByGroupAndMarks(groupIds, idFaculty, mark);
+    }
+
+    @GetMapping("by_crs_mrk")
+    public List<Student> getByCourseAndMarks(@RequestParam("course") int course,
+                                             @RequestParam("idFaculty") int idFaculty,
+                                             @RequestParam("mark") int mark) {
+        return studentService.getByCourseAndMarks(course, idFaculty, mark);
+    }
+
 }

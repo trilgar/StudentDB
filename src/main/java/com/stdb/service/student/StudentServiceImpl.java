@@ -41,9 +41,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(int studentId) {
-        try{
+        try {
             studentDao.deleteStudent(studentId);
-        }catch (DataIntegrityViolationException ex){
+        } catch (DataIntegrityViolationException ex) {
             throw new ForeignKeyViolationException();
         }
     }
@@ -60,7 +60,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getByGroup(String[] group, Map<String, Object> filters) {
-        return studentDao.getByGroup(group,filters);
+        return studentDao.getByGroup(group, filters);
     }
 
     @Override
@@ -71,5 +71,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> getByDisciplineAndMark(List<Integer> groupIds, int idDiscipline, int mark) {
         return studentDao.getByDisciplineAndMark(groupIds, idDiscipline, mark);
+    }
+
+    @Override
+    public List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark) {
+        return studentDao.getByGroupAndMarks(groupIds, idFaculty, minMark);
+    }
+
+    @Override
+    public List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark) {
+        return studentDao.getByCourseAndMarks(course, idFaculty, minMark);
     }
 }

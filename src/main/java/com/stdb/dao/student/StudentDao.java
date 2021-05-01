@@ -21,4 +21,8 @@ public interface StudentDao {
     List<Student> getByCourse(Integer[] course, Map<String, Object> filters);
 
     List<Student> getByDisciplineAndMark(List<Integer> groupIds,int idDiscipline, int mark);
+
+    List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark);
+
+    List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark);
 }
