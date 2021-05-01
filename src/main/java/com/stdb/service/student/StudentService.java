@@ -1,6 +1,7 @@
 package com.stdb.service.student;
 
 import com.stdb.entity.Student;
+import com.stdb.helpers.IntervalFilter;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +26,8 @@ public interface StudentService {
     List<Student> getByGroupAndMarks(List<Integer> groupIds, int idFaculty, int minMark, int semester);
 
     List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark, int semester);
+
+    List<Student> getByGroupAndSemester(List<Integer> groupIds, IntervalFilter semester);
+
+    List<Student> getByMarkAndSemester(int mark, int idDiscipline, IntervalFilter semester);
 }

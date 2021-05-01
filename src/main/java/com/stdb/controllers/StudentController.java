@@ -1,6 +1,7 @@
 package com.stdb.controllers;
 
 import com.stdb.entity.Student;
+import com.stdb.helpers.IntervalFilter;
 import com.stdb.helpers.ServerStatusResponse;
 import com.stdb.helpers.StudentSearchDto;
 import com.stdb.service.student.StudentService;
@@ -76,6 +77,24 @@ public class StudentController {
                                              @RequestParam("mark") int mark,
                                              @RequestParam("semester") int semester) {
         return studentService.getByCourseAndMarks(course, idFaculty, mark, semester);
+    }
+
+    @GetMapping("by_group_and_semester")
+    public List<Student> getByGroupAndSemester(@RequestParam("groups") String groups,
+                                               @RequestParam("from") int from,
+                                               @RequestParam("to") int to) {
+        List<Integer> groupIds = Arrays.stream(groups.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        IntervalFilter semester = new IntervalFilter(from, to);
+        return studentService.getByGroupAndSemester(groupIds, semester);
+    }
+
+    @GetMapping("by_mark_and_semester")
+    public List<Student> getByMarkAndSemester(@RequestParam("mark") int mark,
+                                              @RequestParam("idDiscipline") int idDiscipline,
+                                              @RequestParam("from") int from,
+                                              @RequestParam("to") int to) {
+        IntervalFilter semester = new IntervalFilter(from, to);
+        return studentService.getByMarkAndSemester(mark, idDiscipline, semester);
     }
 
 }

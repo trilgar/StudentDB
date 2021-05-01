@@ -2,6 +2,7 @@ package com.stdb.service.student;
 
 import com.stdb.dao.student.StudentDao;
 import com.stdb.entity.Student;
+import com.stdb.helpers.IntervalFilter;
 import com.stdb.helpers.exceptions.ForeignKeyViolationException;
 import com.stdb.helpers.exceptions.NameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
@@ -81,5 +82,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> getByCourseAndMarks(int course, int idFaculty, int minMark, int semester) {
         return studentDao.getByCourseAndMarks(course, idFaculty, minMark, semester);
+    }
+
+    @Override
+    public List<Student> getByGroupAndSemester(List<Integer> groupIds, IntervalFilter semester) {
+        return studentDao.getByGroupAndSemester(groupIds, semester);
+    }
+
+    @Override
+    public List<Student> getByMarkAndSemester(int mark, int idDiscipline, IntervalFilter semester) {
+        return studentDao.getByMarkAndSemester(mark, idDiscipline, semester);
     }
 }

@@ -1,6 +1,7 @@
 package com.stdb.dao.student;
 
 import com.stdb.entity.Student;
+import com.stdb.helpers.IntervalFilter;
 import com.stdb.service.filterbuilder.StudentFilterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -195,4 +196,43 @@ public class StudentDaoImpl implements StudentDao {
                 new StudentRowMapper()
         );
     }
+
+    @Override
+    public List<Student> getByGroupAndSemester(List<Integer> groupIds, IntervalFilter semester) {
+        String sql = "SELECT DISTINCT s.id, s.name, s.id_group, id_faculty, stipendium, gender, age, kids " +
+                "FROM students s " +
+                "INNER JOIN groups g on s.id_group = g.id " +
+                "INNER JOIN discipline d on g.id = d.id_group ";
+        sql += StudentFilterBuilder.getFilterByGroup(groupIds);
+        sql += " AND semester BETWEEN ? AND ?";
+
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> {
+                    preparedStatement.setInt(1, semester.getFrom());
+                    preparedStatement.setInt(2, semester.getTo());
+                },
+                new StudentRowMapper()
+        );
+    }
+
+    @Override
+    public List<Student> getByMarkAndSemester(int mark, int idDiscipline, IntervalFilter semester) {
+        String sql = "SELECT DISTINCT s.id, s.name, s.id_group, s.id_faculty, stipendium, gender, age, kids " +
+                "FROM students s " +
+                "INNER JOIN exam e on s.id = e.id_student " +
+                "INNER JOIN discipline d on d.id = e.id_discipline " +
+                "WHERE e.mark = ? AND e.id_discipline = ? AND d.semester BETWEEN ? AND ?";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> {
+                    preparedStatement.setInt(1, mark);
+                    preparedStatement.setInt(2, idDiscipline);
+                    preparedStatement.setInt(3, semester.getFrom());
+                    preparedStatement.setInt(4, semester.getTo());
+                },
+                new StudentRowMapper()
+        );
+    }
+
 }
