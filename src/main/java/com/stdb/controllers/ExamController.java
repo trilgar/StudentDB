@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/exams")
+@CrossOrigin(origins = "${frontend.ulr}")
 public class ExamController {
     private final ExamService examService;
 

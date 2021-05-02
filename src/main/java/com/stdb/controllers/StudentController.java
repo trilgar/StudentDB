@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "${frontend.ulr}")
 @RequestMapping("/api/students")
 public class StudentController {
     private final StudentService studentService;
@@ -42,6 +43,11 @@ public class StudentController {
     @GetMapping
     public Student getStudentByName(@RequestParam("name") String name) {
         return studentService.getByName(name);
+    }
+
+    @GetMapping("by_name")
+    public List<Student> getByContainingName(@RequestParam("name") String name){
+        return studentService.getByContainingName(name);
     }
 
     @PostMapping("/by_group")

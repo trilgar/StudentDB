@@ -17,6 +17,8 @@ public interface StudentService {
 
     Student getByName(String name);
 
+    List<Student> getByContainingName(String name);
+
     List<Student> getByGroup(String[] group, Map<String, Object> filters);
 
     List<Student> getByCourse(Integer[] course, Map<String, Object> filters);

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/teachers")
+@CrossOrigin(origins = "${frontend.ulr}")
 public class TeacherController {
     private final TeacherService teacherService;
 

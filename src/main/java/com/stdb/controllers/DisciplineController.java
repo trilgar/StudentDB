@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "${frontend.ulr}")
 @RequestMapping("/api/disciplines")
 public class DisciplineController {
     private final DisciplineService disciplineService;

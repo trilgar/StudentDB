@@ -60,6 +60,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> getByContainingName(String name) {
+        return studentDao.getByContainingName(name);
+    }
+
+    @Override
     public List<Student> getByGroup(String[] group, Map<String, Object> filters) {
         return studentDao.getByGroup(group, filters);
     }

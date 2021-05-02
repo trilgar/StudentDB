@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "${frontend.ulr}")
 @RequiredArgsConstructor
 public class UsersController {
     private final UserService userService;

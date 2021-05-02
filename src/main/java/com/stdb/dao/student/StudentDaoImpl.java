@@ -85,6 +85,18 @@ public class StudentDaoImpl implements StudentDao {
         return students.size() == 1 ? students.get(0) : null;
     }
 
+
+    @Override
+    public List<Student> getByContainingName(String name) {
+        String sql = "SELECT id, name, id_group, id_faculty, stipendium, gender, age, kids " +
+                "FROM students WHERE name LIKE concat('%', ?, '%')";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setString(1, name),
+                new StudentRowMapper()
+        );
+    }
+
     @Override
     public List<Student> getByGroup(String[] groups, Map<String, Object> filters) {
         StringBuilder groupsFilter = new StringBuilder("WHERE (");

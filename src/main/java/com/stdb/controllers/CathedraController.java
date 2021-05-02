@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cathedras")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "${frontend.ulr}")
 public class CathedraController {
     private final CathedraService cathedraService;
 

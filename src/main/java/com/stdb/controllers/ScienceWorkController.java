@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/science_works")
+@CrossOrigin(origins = "${frontend.ulr}")
 public class ScienceWorkController {
     private final ScienceWorkService scienceWorkService;
 

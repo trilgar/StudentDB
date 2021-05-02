@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/faculties")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "${frontend.ulr}")
 public class FacultyController {
     private final FacultyService facultyService;
 
