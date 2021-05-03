@@ -63,4 +63,14 @@ public class DisciplineServiceImpl implements DisciplineService {
     public List<DisciplineLoad> getLoadByCathedra(int semester, int idCathedra) {
         return disciplineDao.getLoadByCathedra(semester, idCathedra);
     }
+
+    @Override
+    public List<Discipline> getByName(String name) {
+        return disciplineDao.getByName(name);
+    }
+
+    @Override
+    public List<Discipline> getByGroups(List<Integer> groups) {
+        return disciplineDao.getByGroups(groups);
+    }
 }

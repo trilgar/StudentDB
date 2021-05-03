@@ -18,4 +18,8 @@ public interface DisciplineService {
     List<DisciplineLoad> getTeachersLoad(int semester, int idTeacher);
 
     List<DisciplineLoad> getLoadByCathedra(int semester, int idCathedra);
+
+    List<Discipline> getByName(String name);
+
+    List<Discipline> getByGroups(List<Integer> groups);
 }

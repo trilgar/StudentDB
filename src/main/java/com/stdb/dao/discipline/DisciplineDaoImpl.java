@@ -4,6 +4,7 @@ import com.stdb.entity.DType;
 import com.stdb.entity.Discipline;
 import com.stdb.entity.DisciplineLoad;
 import com.stdb.entity.TypeToHours;
+import com.stdb.service.filterbuilder.StudentFilterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -94,6 +95,17 @@ public class DisciplineDaoImpl implements DisciplineDao {
                 new DisciplineRowMapper()
         );
         return disciplines.size() == 1 ? disciplines.get(0) : null;
+    }
+
+    @Override
+    public List<Discipline> getByName(String name) {
+        String sql = "SELECT id, type, id_teacher, id_group, name, hours, course, semester " +
+                "FROM discipline WHERE name LIKE concat('%', ?, '%')";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setString(1, name),
+                new DisciplineRowMapper()
+        );
     }
 
     @Override
@@ -192,5 +204,15 @@ public class DisciplineDaoImpl implements DisciplineDao {
         disciplineLoad.setDisciplineName(name);
         return disciplineLoad;
 
+    }
+
+    @Override
+    public List<Discipline> getByGroups(List<Integer> groups) {
+        String sql = "SELECT id, type, id_teacher, id_group, name, hours, course, semester FROM discipline s ";
+        sql += StudentFilterBuilder.getFilterByGroup(groups);
+        return jdbcTemplate.query(
+                sql,
+                new DisciplineRowMapper()
+        );
     }
 }

@@ -104,7 +104,10 @@ public class StudentDaoImpl implements StudentDao {
             groupsFilter.append("grp.name = ").append("'").append(group).append("'").append(" OR ");
         }
         groupsFilter.delete(groupsFilter.length() - 4, groupsFilter.length() - 1);
-        groupsFilter.append(") AND ");
+        groupsFilter.append(")");
+        if(!filters.isEmpty()){
+            groupsFilter.append(" AND ");
+        }
 
         String sql = "SELECT DISTINCT std.id, std.name, std.id_group, std.id_faculty, std.stipendium, std.gender, std.age, std.kids " +
                 "FROM students std INNER JOIN groups grp " +
