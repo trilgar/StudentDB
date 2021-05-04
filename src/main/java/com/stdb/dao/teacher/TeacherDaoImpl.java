@@ -83,6 +83,17 @@ public class TeacherDaoImpl implements TeacherDao {
     }
 
     @Override
+    public List<Teacher> getByContainName(String name) {
+        String sql = "SELECT tcr.id, tcr.name, tcr.id_faculty, tcr.category, tcr.year, tcr.wage, tcr.is_asp, tcr.gender, tcr.age, tcr.kids, tcr.id_cathedra " +
+                "FROM teachers tcr WHERE name Like concat('%', ?, '%')";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setString(1, name),
+                new TeacherRowMapper()
+        );
+    }
+
+    @Override
     public List<Teacher> getByFaculty(String[] faculties, Map<String, Object> filters) {
         StringBuilder facultiesFilter = new StringBuilder("WHERE (");
         for (String faculty : faculties) {
@@ -91,7 +102,7 @@ public class TeacherDaoImpl implements TeacherDao {
         facultiesFilter.delete(facultiesFilter.length() - 4, facultiesFilter.length() - 1);
         facultiesFilter.append(") AND ");
 
-        String sql = "SELECT tcr.id, tcr.name, tcr.id_faculty, tcr.category, tcr.year, tcr.wage, tcr.is_asp, tcr.gender, tcr.age, tcr.kids, tcr.id_cathedra " +
+        String sql = "SELECT Distinct tcr.id, tcr.name, tcr.id_faculty, tcr.category, tcr.year, tcr.wage, tcr.is_asp, tcr.gender, tcr.age, tcr.kids, tcr.id_cathedra " +
                 "FROM teachers tcr INNER JOIN faculty fct on tcr.id_faculty = fct.id INNER JOIN science_work sw on tcr.id = sw.id_teacher ";
 
         sql += facultiesFilter + " ";
@@ -112,7 +123,7 @@ public class TeacherDaoImpl implements TeacherDao {
         cathedrasFilter.delete(cathedrasFilter.length() - 4, cathedrasFilter.length() - 1);
         cathedrasFilter.append(") AND ");
 
-        String sql = "SELECT tcr.id, tcr.name, tcr.id_faculty, tcr.category, tcr.year, tcr.wage, tcr.is_asp, tcr.gender, tcr.age, tcr.kids, tcr.id_cathedra " +
+        String sql = "SELECT DISTINCT tcr.id, tcr.name, tcr.id_faculty, tcr.category, tcr.year, tcr.wage, tcr.is_asp, tcr.gender, tcr.age, tcr.kids, tcr.id_cathedra " +
                 "FROM teachers tcr INNER JOIN cathedra cfd on cfd.id = tcr.id_cathedra INNER JOIN science_work sw on tcr.id = sw.id_teacher ";
 
         sql += cathedrasFilter;

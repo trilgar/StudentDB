@@ -16,6 +16,8 @@ public interface TeacherService {
 
     Teacher getByName(String name);
 
+    List<Teacher> getByContainName(String name);
+
     List<Teacher> getByFaculty(String[] faculty, Map<String, Object> filters);
 
     List<Teacher> getByCathedra(String[] cathedras, Map<String, Object> filters);

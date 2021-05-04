@@ -53,6 +53,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public List<Teacher> getByContainName(String name) {
+        return teacherDao.getByContainName(name);
+    }
+
+    @Override
     public List<Teacher> getByFaculty(String[] faculty, Map<String, Object> filters) {
         return teacherDao.getByFaculty(faculty, filters);
     }

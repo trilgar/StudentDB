@@ -44,6 +44,11 @@ public class TeacherController {
         return teacherService.getByName(name);
     }
 
+    @GetMapping("by_name")
+    public List<Teacher> getByContainName(@RequestParam("name") String name) {
+        return teacherService.getByContainName(name);
+    }
+
     @PostMapping("/by_faculty")
     public List<Teacher> getTeachersByFaculty(@RequestBody StudentSearchDto<String> ssd) {
         return teacherService.getByFaculty(ssd.getMainSearchCriteria(), ssd.getFilters());
