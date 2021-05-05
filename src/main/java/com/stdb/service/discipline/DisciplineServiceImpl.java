@@ -73,4 +73,9 @@ public class DisciplineServiceImpl implements DisciplineService {
     public List<Discipline> getByGroups(List<Integer> groups) {
         return disciplineDao.getByGroups(groups);
     }
+
+    @Override
+    public List<Discipline> getByCourses(List<Integer> courses) {
+        return disciplineDao.getByCourses(courses);
+    }
 }

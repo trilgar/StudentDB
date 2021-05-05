@@ -23,4 +23,6 @@ public interface DisciplineDao {
     List<DisciplineLoad> getLoadByCathedra(int semester, int idCathedra);
 
     List<Discipline> getByGroups(List<Integer> groups);
+
+    List<Discipline> getByCourses(List<Integer> courses);
 }

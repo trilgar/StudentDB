@@ -62,4 +62,10 @@ public class DisciplineController {
         return disciplineService.getByGroups(groupIds);
     }
 
+    @GetMapping("by_courses")
+    public List<Discipline> getByCourses(@RequestParam("courses") String courseString) {
+        List<Integer> courses = Arrays.stream(courseString.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        return disciplineService.getByCourses(courses);
+    }
+
 }

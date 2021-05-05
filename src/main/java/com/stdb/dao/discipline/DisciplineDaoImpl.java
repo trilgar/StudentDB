@@ -215,4 +215,22 @@ public class DisciplineDaoImpl implements DisciplineDao {
                 new DisciplineRowMapper()
         );
     }
+
+    @Override
+    public List<Discipline> getByCourses(List<Integer> courses) {
+        StringBuilder coursesString = new StringBuilder();
+        if(!courses.isEmpty()){
+            coursesString = new StringBuilder("WHERE d.course IN (");
+            StringBuilder finalCoursesString = coursesString;
+            courses.forEach((course) -> finalCoursesString.append(course).append(","));
+            coursesString.deleteCharAt(coursesString.length() - 1);
+            coursesString.append(")");
+        }
+        String sql = "SELECT id, type, id_teacher, id_group, name, hours, course, semester FROM discipline d ";
+        sql += coursesString.toString();
+        return jdbcTemplate.query(
+                sql,
+                new DisciplineRowMapper()
+        );
+    }
 }

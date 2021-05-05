@@ -22,4 +22,6 @@ public interface DisciplineService {
     List<Discipline> getByName(String name);
 
     List<Discipline> getByGroups(List<Integer> groups);
+
+    List<Discipline> getByCourses(List<Integer> courses);
 }
