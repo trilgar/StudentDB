@@ -204,18 +204,25 @@ public class TeacherDaoImpl implements TeacherDao {
     }
 
     @Override
-    public List<Teacher> getByExams(int idGroup, String dName, int semester) {
+    public List<Teacher> getByExams(List<Integer> groupIds, String dName, int semester) {
+        StringBuilder groupSelect = new StringBuilder();
+        if (!groupIds.isEmpty()) {
+            groupSelect.append(" AND d.id_group IN(");
+            groupIds.forEach((groupId) -> groupSelect.append(groupId).append(","));
+            groupSelect.deleteCharAt(groupSelect.length() - 1);
+            groupSelect.append(")");
+        }
         String sql = "SELECT DISTINCT t.id, t.name, id_faculty, category, year, wage, is_asp, gender, age, kids, id_cathedra  " +
                 "FROM teachers t " +
                 "INNER JOIN discipline d on t.id = d.id_teacher " +
                 "INNER JOIN exam e on d.id = e.id_discipline " +
-                "WHERE e.type = 'Exam' AND d.id_group = ? AND d.name = ? AND d.semester = ?";
+                "WHERE e.type = 'Exam' AND d.name = ? AND d.semester = ? ";
+        sql += groupSelect;
         return jdbcTemplate.query(
                 sql,
                 preparedStatement -> {
-                    preparedStatement.setInt(1, idGroup);
-                    preparedStatement.setString(2, dName);
-                    preparedStatement.setInt(3, semester);
+                    preparedStatement.setString(1, dName);
+                    preparedStatement.setInt(2, semester);
                 },
                 new TeacherRowMapper()
 

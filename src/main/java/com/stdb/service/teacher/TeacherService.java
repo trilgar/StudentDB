@@ -30,7 +30,7 @@ public interface TeacherService {
 
     List<Teacher> getByCategoryCourse(List<TeacherCategory> teacherCategories, int course, int idFaculty, IntervalFilter semester);
 
-    List<Teacher> getByExams(int idGroup, String dName, int semester);
+    List<Teacher> getByExams(List<Integer> groupIds, String dName, int semester);
 
     List<Teacher> getHeadOfGwByCathedra(int idCathedra, List<TeacherCategory> teacherCategories);
 

@@ -101,10 +101,11 @@ public class TeacherController {
     }
 
     @GetMapping("by_exams")
-    public List<Teacher> getByExams(@RequestParam("idGroup") int idGroup,
+    public List<Teacher> getByExams(@RequestParam("groups") String groups,
                                     @RequestParam("dName") String dName,
                                     @RequestParam("semester") int semester) {
-        return teacherService.getByExams(idGroup, dName, semester);
+        List<Integer> groupIds = Arrays.stream(groups.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        return teacherService.getByExams(groupIds, dName, semester);
     }
 
     @GetMapping("heads/by_cathedra")

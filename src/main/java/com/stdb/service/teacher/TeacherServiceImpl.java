@@ -88,8 +88,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> getByExams(int idGroup, String dName, int semester) {
-        return teacherDao.getByExams(idGroup, dName, semester);
+    public List<Teacher> getByExams(List<Integer> groupIds, String dName, int semester) {
+        return teacherDao.getByExams(groupIds, dName, semester);
     }
 
     @Override
