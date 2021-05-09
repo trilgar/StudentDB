@@ -62,4 +62,8 @@ public class ScienceWorkServiceImpl implements ScienceWorkService {
         return scienceWorkDao.getWorksByItems(idFaculty, idCathedra);
     }
 
+    @Override
+    public List<ScienceWork> getByContainName(String name) {
+        return scienceWorkDao.getByContainName(name);
+    }
 }

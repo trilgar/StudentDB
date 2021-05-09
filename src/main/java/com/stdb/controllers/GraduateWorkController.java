@@ -37,9 +37,9 @@ public class GraduateWorkController {
         return graduateWorkService.getById(idGw);
     }
 
-    @GetMapping
-    public GraduateWork getGwByName(@RequestParam("name") String name) {
-        return graduateWorkService.getByName(name);
+    @GetMapping("/by_name")
+    public List<GraduateWork> getGwByName(@RequestParam("name") String name) {
+        return graduateWorkService.getByContainName(name);
     }
 
     @GetMapping("by_cathedra")

@@ -36,9 +36,9 @@ public class ScienceWorkController {
         return scienceWorkService.getById(idSw);
     }
 
-    @GetMapping
-    public ScienceWork getSwById(@RequestParam("name") String name) {
-        return scienceWorkService.getByName(name);
+    @GetMapping("by_name")
+    public List<ScienceWork> getSwByName(@RequestParam("name") String name) {
+        return scienceWorkService.getByContainName(name);
     }
 
     @GetMapping("/by_filters")

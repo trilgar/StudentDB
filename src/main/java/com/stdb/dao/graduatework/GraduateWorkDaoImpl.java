@@ -84,6 +84,16 @@ public class GraduateWorkDaoImpl implements GraduateWorkDao {
     }
 
     @Override
+    public List<GraduateWork> getByContainName(String name) {
+        String sql = "SELECT id, id_student, id_teacher, year, name, description " +
+                "FROM graduate_work WHERE name LIKE concat('%', ? , '%')";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setString(1, name),
+                new GraduateWorkRowMapper());
+    }
+
+    @Override
     public List<CombinedGW> getByCathedra(int idCathedra) {
         String sql = "SELECT DISTINCT s.id as id_student, s.name as student_name, gw.name as gw_name " +
                 "FROM students s INNER JOIN graduate_work gw on s.id = gw.id_student " +

@@ -21,6 +21,10 @@ public class DisciplineServiceImpl implements DisciplineService {
     @Override
     public Discipline create(Discipline discipline) {
         try {
+            Discipline duplicate = disciplineDao.getByItems(discipline);
+            if (duplicate != null) {
+                return duplicate;
+            }
             return disciplineDao.create(discipline);
         } catch (DataIntegrityViolationException ex) {
             log.error(ex.getMessage());

@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -18,6 +20,10 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Exam create(Exam exam) {
         try {
+            Exam duplicate = examDao.getIds(exam.getIdDiscipline(), exam.getIdStudent());
+            if (duplicate != null) {
+                return duplicate;
+            }
             return examDao.create(exam);
         } catch (DataIntegrityViolationException exception) {
             throw new NameAlreadyExistsException();
@@ -45,5 +51,15 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Exam getById(int idExam) {
         return examDao.getById(idExam);
+    }
+
+    @Override
+    public List<Exam> getByName(String name) {
+        return examDao.getByName(name);
+    }
+
+    @Override
+    public Exam getIds(int idDiscipline, int idStudent) {
+        return examDao.getIds(idDiscipline, idStudent);
     }
 }

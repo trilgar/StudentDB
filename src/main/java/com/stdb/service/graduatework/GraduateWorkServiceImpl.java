@@ -67,4 +67,9 @@ public class GraduateWorkServiceImpl implements GraduateWorkService {
     public List<CombinedGW> getByTeacher(int idTeacher) {
         return graduateWorkDao.getByTeacher(idTeacher);
     }
+
+    @Override
+    public List<GraduateWork> getByContainName(String name) {
+        return graduateWorkDao.getByContainName(name);
+    }
 }

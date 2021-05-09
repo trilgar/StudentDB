@@ -19,4 +19,6 @@ public interface GraduateWorkService {
     List<CombinedGW> getByCathedra(int idCathedra);
 
     List<CombinedGW> getByTeacher(int idTeacher);
+
+    List<GraduateWork> getByContainName(String name);
 }

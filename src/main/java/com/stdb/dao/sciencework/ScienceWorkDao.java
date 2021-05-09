@@ -17,4 +17,6 @@ public interface ScienceWorkDao {
     ScienceWork getByName(String name);
 
     List<ScienceWork> getWorksByItems(int idFaculty, int idCathedra);
+
+    List<ScienceWork> getByContainName(String name);
 }

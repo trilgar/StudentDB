@@ -96,5 +96,14 @@ public class ScienceWorkDaoImpl implements ScienceWorkDao {
                 new ScienceWorkRowMapper());
     }
 
-
+    @Override
+    public List<ScienceWork> getByContainName(String name) {
+        String sql = "SELECT Distinct sw.id, sw.type, sw.id_teacher, sw.year, sw.name, sw.description, tcr.name as tcr_name " +
+                "FROM science_work sw INNER JOIN teachers tcr on tcr.id = sw.id_teacher WHERE sw.name LIKE concat('%', ?, '%')";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setString(1, name),
+                new ScienceWorkRowMapper()
+        );
+    }
 }

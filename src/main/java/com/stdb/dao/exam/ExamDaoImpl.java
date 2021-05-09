@@ -67,8 +67,8 @@ public class ExamDaoImpl implements ExamDao {
                 new ExamRowMapper());
         return exams.size() == 1 ? exams.get(0) : null;
     }
-
-    private Exam getIds(int idDiscipline, int idStudent) {
+    @Override
+    public Exam getIds(int idDiscipline, int idStudent) {
         String sql = "SELECT id, type, id_discipline, id_student, description, mark " +
                 "FROM exam WHERE id_discipline = ? AND id_student = ?";
         List<Exam> exams = jdbcTemplate.query(
@@ -79,5 +79,15 @@ public class ExamDaoImpl implements ExamDao {
                 },
                 new ExamRowMapper());
         return exams.size() == 1 ? exams.get(0) : null;
+    }
+
+    @Override
+    public List<Exam> getByName(String name) {
+        String sql = "SELECT id, type, id_discipline, id_student, description, mark FROM exam WHERE exam.description LIKE concat('%', ?, '%') ";
+        return jdbcTemplate.query(
+                sql,
+                preparedStatement -> preparedStatement.setString(1, name),
+                new ExamRowMapper()
+        );
     }
 }

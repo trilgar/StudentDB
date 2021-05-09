@@ -16,6 +16,8 @@ public interface GraduateWorkDao {
 
     GraduateWork getByName(String name);
 
+    List<GraduateWork> getByContainName(String name);
+
     List<CombinedGW> getByCathedra(int idCathedra);
 
     List<CombinedGW> getByTeacher(int idTeacher);

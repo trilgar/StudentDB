@@ -6,6 +6,8 @@ import com.stdb.service.exam.ExamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/exams")
@@ -27,6 +29,17 @@ public class ExamController {
     public ServerStatusResponse editExam(@RequestParam("id") int idExam) {
         examService.delete(idExam);
         return new ServerStatusResponse("Success");
+    }
+
+    @GetMapping("/by_name")
+    public List<Exam> getByDescription(@RequestParam("name") String name) {
+        return examService.getByName(name);
+    }
+
+    @GetMapping("/validate")
+    public Exam getIds(@RequestParam int idDiscipline,
+                       @RequestParam int idStudent) {
+        return examService.getIds(idDiscipline, idStudent);
     }
 
     @GetMapping("/{idExam}")
