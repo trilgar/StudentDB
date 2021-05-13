@@ -1,9 +1,11 @@
 package com.stdb.service.teacher;
 
 import com.stdb.dao.teacher.TeacherDao;
+import com.stdb.entity.AspStatus;
 import com.stdb.entity.Teacher;
 import com.stdb.entity.TeacherCategory;
 import com.stdb.helpers.IntervalFilter;
+import com.stdb.helpers.exceptions.AspStatusException;
 import com.stdb.helpers.exceptions.ForeignKeyViolationException;
 import com.stdb.helpers.exceptions.NameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher create(Teacher teacher) {
+        if (!Arrays.asList(TeacherCategory.Lecturer, TeacherCategory.Assistant).contains(teacher.getCategory()) && teacher.getAsp().equals(AspStatus.TRUE)) {
+            throw new AspStatusException();
+        }
         try {
             return teacherDao.create(teacher);
         } catch (DataIntegrityViolationException ex) {
